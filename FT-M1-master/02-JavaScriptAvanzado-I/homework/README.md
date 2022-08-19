@@ -11,7 +11,7 @@ Determiná que será impreso en la consola, sin ejecutar el código.
 x = 1;//asigna 1 a la variable x en global
 var a = 5; //inicializa y asigna 5 a la nueva variable a en global
 var b = 10;//inicializa y asigna 10 a la nueva variable b en global
-var c = function(a, b, c) { // la primer c es una variable de nombre "c" ,el valor por parametro de la function(a,b,c) no tiene relacion al nombre de la variable c contenedora de una funcion
+var c = function(a, b, c) { // la primer c es una variable de nombre "c" ,el valor por parametro de la function(a,b,c), por lo tanto es una funcion
   var x = 10;
   console.log(x);//10
   console.log(a);//8
@@ -26,7 +26,7 @@ var c = function(a, b, c) { // la primer c es una variable de nombre "c" ,el val
 }
 c(8,9,10);
 console.log(b);//10 (por mas que se haya trabajado con las variables internas en el proceso "c" no se retorno nada y los valores no se vieron afectados en el global)
-console.log(x);//1 (x jamas fue declarada pero en ec6 es 1)
+console.log(x);//1 (x jamas fue declarada pero se inicializo)
 ```
 
 ```javascript
