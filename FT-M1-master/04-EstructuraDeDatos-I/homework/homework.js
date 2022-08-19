@@ -16,13 +16,23 @@ Como ejercicio adicional y completamente opcional, al terminar de resolver este 
 
 function nFactorial(n) { 
 
-  if (n > 0){
-    
-  }
+  if (n <= 1) return 1;
+
+  return n * nFactorial( n - 1 );//porque este valor no puede ser n * n-1?
+
 }
 
 function nFibonacci(n) {
+
+  if(n < 2) {
+    return n;
 }
+else {
+    return nFibonacci(n-1) + nFibonacci(n - 2);
+}
+}
+
+console.log(nFibonacci(4))
 
 /*
 Implementar la clase Queue, sabiendo que es una estructura de tipo FIFO, donde el primer elemento que ingresa es el primero que se quita. Definir los siguientes métodos:
