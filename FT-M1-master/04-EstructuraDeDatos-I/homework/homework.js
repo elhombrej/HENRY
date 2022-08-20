@@ -16,9 +16,10 @@ Como ejercicio adicional y completamente opcional, al terminar de resolver este 
 
 function nFactorial(n) { 
 
-  if (n <= 1) return 1;
-
-  return n * nFactorial( n - 1 );//porque este valor no puede ser n * n-1?
+  if (n <= 1) 
+  {return 1;
+  } else {
+  return n * nFactorial( n - 1 );}//porque este valor no puede ser n * n-1?
 
 }
 
@@ -26,8 +27,7 @@ function nFibonacci(n) {
 
   if(n < 2) {
     return n;
-}
-else {
+} else {
     return nFibonacci(n-1) + nFibonacci(n - 2);
 }
 }
@@ -45,7 +45,53 @@ Pueden utilizar class o función constructora.
 
 function Queue() {
 
+this.array = [];
+
 }
+
+var objeto = new Queue();
+
+Queue.prototype.enqueue = function(propiedad){
+
+  this.array.push(propiedad);
+}
+
+Queue.prototype.dequeue = function(){
+
+  return this.array.shift();
+
+}
+
+Queue.prototype.size = function() {
+
+return this.array.length;
+
+}
+
+objeto.enqueue(2);
+console.log(objeto)
+console.log(objeto.size());
+
+
+objeto.enqueue(3);
+console.log(objeto)
+
+objeto.enqueue(4);
+console.log(objeto)
+console.log(objeto.size());
+
+
+objeto.dequeue();
+console.log(objeto)
+console.log(objeto.size());
+
+
+objeto.dequeue();
+console.log(objeto)
+
+console.log(objeto.size());
+console.log(objeto);
+console.log(objeto);
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
