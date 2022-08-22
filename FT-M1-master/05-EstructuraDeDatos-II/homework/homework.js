@@ -2,18 +2,74 @@
 
 /*
 Implementar la clase LinkedList, definiendo los siguientes métodos:
-  - add: agrega un nuevo nodo al final de la lista;
-  - remove: elimina el último nodo de la lista y retorna su valor (tener en cuenta el caso particular de una lista de un solo nodo y de una lista vacía);
-  - search: recibe un parámetro y lo busca dentro de la lista, con una particularidad: el parámetro puede ser un valor o un callback. En el primer caso, buscamos un nodo cuyo valor coincida con lo buscado; en el segundo, buscamos un nodo cuyo valor, al ser pasado como parámetro del callback, retorne true. 
+  - add: agrega un nuevo newNode al final de la lista;
+  - remove: elimina el último newNode de la lista y retorna su valor (tener en cuenta el caso particular de una lista de un solo newNode
+ y de una lista vacía);
+  - search: recibe un parámetro y lo busca dentro de la lista, con una particularidad: el parámetro puede ser un valor o un callback. En el primer caso, buscamos un newNode cuyo valor coincida con lo buscado; en el segundo, buscamos un newNode cuyo valor, al ser pasado como parámetro del callback, retorne true. 
   Ejemplo: 
-  search(3) busca un nodo cuyo valor sea 3;
-  search(isEven), donde isEven es una función que retorna true cuando recibe por parámetro un número par, busca un nodo cuyo valor sea un número par.
+  search(3) busca un newNode cuyo valor sea 3;
+  search(isEven), donde isEven es una función que retorna true cuando recibe por parámetro un número par, busca un newNode cuyo valor sea un número par.
   En caso de que la búsqueda no arroje resultados, search debe retornar null.
 */
 
-function LinkedList() {}
 
-function Node(value) {}
+function LinkedList() {
+
+  this.head = null;
+
+  this.size = 0;
+
+}
+
+function Node(value) {
+
+
+  this.value = value;
+
+  this.next = null;
+
+}
+
+LinkedList.prototype.add = function(value){
+
+  const newNode = new Node(value);//agrego un nuevo nodo dentro de la funcion LinkedList
+
+   let current = this.head;//declaro e inicializo current como el registro de el nodo principal Head
+
+  if (!current){ //en esta condicion marcamos el primer nodo como Head
+
+    this.head = newNode;//aplico el head por unica vez, tambien el current paso a ser newNode(aca hacemos referencia a la lista)
+    
+    this.size++//aumento el registro del tamaño de la lista (aca hacemos referencia a la lista)
+
+    return newNode;// ¿?
+    
+  }//si ya tiene un head solo nos queda recorrer la lista y verificar que no sea el unico
+    
+  while(current.next){//mientras current (que es ahora newNode) sea verdadero, osea que exista en la lista me muevo buscando el ultimo vacio con el valor current.next que sea igual a null
+    
+    current = current.next//como encontro un valor en current.next (ya que entro en el bucle) le agrego el valor de la propiedad current.next (que hace referenca a la ubicacion del siguiente nodo en la lista)
+
+  }
+
+  current.next = newNode;
+  this.size++;
+  return newNode;
+  
+};
+
+
+LinkedList.prototype.remove = function(parametro){
+
+ 
+
+};
+
+LinkedList.prototype.search = function(parametro){
+
+};
+
+var lista = new LinkedList();
 
 /*
 Implementar la clase HashTable.
