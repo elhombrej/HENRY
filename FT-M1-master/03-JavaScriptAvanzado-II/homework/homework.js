@@ -53,9 +53,39 @@ function cacheFunction(cb) {
 
   */
 
+  const obj = {};
 
+  return function(arg){
+
+    if (obj.hasOwnProperty(arg)) {
+
+      return obj[arg];
+    
+    } else {
+
+      obj[arg] = cb(arg);
+
+    }
+
+    return obj[arg];
+
+  }
 
 }
+
+const cb = function square(n){
+  return n * n
+}
+
+console.log(cb(2));
+
+const squareCache = cacheFunction(cb);
+
+
+console.log(squareCache(4))
+console.log(squareCache(3))
+console.log(squareCache(7))
+console.log(squareCache(4))
 
 // Bind
 
