@@ -30,46 +30,125 @@ function Node(value) {
 
 }
 
-LinkedList.prototype.add = function(value){
+LinkedList.prototype.add = function(data){
 
-  const newNode = new Node(value);//agrego un nuevo nodo dentro de la funcion LinkedList
+  let newNode = new Node(data);//agrego un nuevo nodo dentro de la funcion LinkedList
 
-   let current = this.head;//declaro e inicializo current como el registro de el nodo principal Head
+  let current = this.head;//declaro e inicializo current como el registro de el nodo principal Head
 
-  if (!current){ //en esta condicion marcamos el primer nodo como Head
+  if (!current){ //en esta condicion marcamos el primer nodo como Head (verifico si no hay head)
 
     this.head = newNode;//aplico el head por unica vez, tambien el current paso a ser newNode(aca hacemos referencia a la lista)
     
     this.size++//aumento el registro del tamaño de la lista (aca hacemos referencia a la lista)
-
-    return newNode;// ¿?
     
+    return newNode;
+
   }//si ya tiene un head solo nos queda recorrer la lista y verificar que no sea el unico
     
-  while(current.next){//mientras current (que es ahora newNode) sea verdadero, osea que exista en la lista me muevo buscando el ultimo vacio con el valor current.next que sea igual a null
+    while(current.next){//mientras current (que es ahora newNode) sea verdadero, osea que exista en la lista me muevo buscando el ultimo vacio con el valor current.next que sea igual a null
     
-    current = current.next//como encontro un valor en current.next (ya que entro en el bucle) le agrego el valor de la propiedad current.next (que hace referenca a la ubicacion del siguiente nodo en la lista)
+      current = current.next//como encontro un valor en current.next (ya que entro en el bucle) le agrego el valor de la propiedad current.next (que hace referenca a la ubicacion del siguiente nodo en la lista)
+  
+    }
+  
+    current.next = newNode;
+  
+    this.size++;
 
-  }
-
-  current.next = newNode;
-  this.size++;
-  return newNode;
+    return newNode;
   
 };
 
 
-LinkedList.prototype.remove = function(parametro){
+LinkedList.prototype.remove = function(){
 
+ let current = this.head;
+
+ if (current === null) return null;
+
+ if (current.next === null)  {
+
+  let auxiliar = current.value;
+  
+  this.head = null;
+
+  this.size--
+
+  return auxiliar;
+
+ }
+
+
+ while (current.next.next) {
+
+  current = current.next;
  
+}
+
+ const auxiliar = current.next.value;
+
+ current.next = null;
+
+ this.size--;
+
+ return auxiliar;
 
 };
+
 
 LinkedList.prototype.search = function(parametro){
 
+  let current = this.head;
+
+  if (this.head === null) return null;
+
+  while (current) {
+
+    if (typeof parametro == "function"){
+  
+      if (parametro(current.value)) return current.value;
+      
+    }
+  
+    if (current.value === parametro) {
+  
+      return parametro;
+
+    }
+  
+    current = current.next;
+
+  }
+  
+  return null;
+
 };
 
-var lista = new LinkedList();
+
+console.log((typeof 2) === "number")
+const miLista = new LinkedList();
+
+const pepito =function callBack(numero){
+
+  numero = numero +1;
+
+  return true
+
+}
+
+
+
+console.log(miLista.add(2));
+console.log(miLista.add(4));
+console.log(miLista.add(6));
+console.log(miLista.add(8));
+console.log(miLista.remove());
+console.log(miLista.add(10));
+console.log(miLista);
+console.log(miLista.search(pepito(2)));
+
+
 
 /*
 Implementar la clase HashTable.

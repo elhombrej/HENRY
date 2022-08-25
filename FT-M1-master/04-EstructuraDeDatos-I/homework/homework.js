@@ -49,7 +49,6 @@ this.array = [];
 
 }
 
-var objeto = new Queue();
 
 Queue.prototype.enqueue = function(propiedad){
 
@@ -67,6 +66,9 @@ Queue.prototype.size = function() {
 return this.array.length;
 
 }
+
+var objeto = new Queue();
+
 
 objeto.enqueue(2);
 console.log(objeto)
