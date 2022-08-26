@@ -146,7 +146,7 @@ console.log(miLista.add(8));
 console.log(miLista.remove());
 console.log(miLista.add(10));
 console.log(miLista);
-console.log(miLista.search(pepito(2)));
+console.log(miLista.search(pepito));
 
 
 

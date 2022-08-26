@@ -77,37 +77,22 @@ tengo derecha?
 
 BinarySearchTree.prototype.contains = function(value){
 
-  if (this.value === value) { return true};
+  if (value === this.value) return true;
 
-  if (this.left) {
-  
-    if (this.left.value === value) {
-  
-      return value;
-  
-    } else {
-  
-      this.left.contains(value);
-  
-    }
-  } else {
-  
-    if (this.right){
-  
-      if (this.value === value){
-  
-        return value;
-  
-      } else {
-  
-        this.right.contains(value);
-  
-      }
-  
-    }
-  
-    return false;
-  
+  if (value < this.value) {
+
+    if (this.left === null) return false;
+
+    else return this.left.contains(value);
+
+  }
+
+  if (value > this.value) {
+
+    if (this.right === null) return false;
+
+    else return this.right.contains(value);
+
   }
 
 }
@@ -124,12 +109,24 @@ BinarySearchTree.prototype.breadthFirstForEach = function(value){
   
 }
 
-BinarySearchTree.prototype.size = function(value){
+BinarySearchTree.prototype.size = function(){
 
+if (!this.right && !this.left ) return 1;
 
-  
+if (this.right && !this.left) return 1 + this.right.size();
+
+if (!this.right && this.left) return 1 + this.left.size();
+
+if (this.right && this.left) return 1 + this.right.size() + this.left.size()
+
 }
 
+
+/*-------------------------------------------------*/
+
+//TEST ZONE//
+
+/*-------------------------------------------------*/
 
 
 const miArbol = new BinarySearchTree(3)
@@ -142,6 +139,11 @@ miArbol.insert(4);
 console.log(miArbol.contains(22))
 
 console.log(miArbol)
+
+console.log(miArbol.size())
+
+
+/*-------------------------------------------------*/
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
