@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const { json } = require("body-parser");
 
 const app = express();
 let nextId = 7;
@@ -60,7 +61,12 @@ app.get("/amigos/:id", function(req, res)  {
   let friendIndex = amigos.findIndex(friend => friend.id == id);
   var friend = amigos[friendIndex]
   console.log(res.status)
-  res.status(200).json(friend);
+  //res.status(200).json(friend);
+  console.log(friend);
+  if(friend){
+    res.status(200).json(friend);
+  } else {
+    res.status(200).json("")};
 });
 
 app.post("/amigos", (req, res) => {
