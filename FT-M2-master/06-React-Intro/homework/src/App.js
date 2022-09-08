@@ -9,13 +9,13 @@ function App() {
   return (
     <div className="App">
       <div>
-        <Card
+        {/*<Card
           max={Cairns.main.temp_max}
           min={Cairns.main.temp_min}
           name={Cairns.name}
           img={Cairns.weather[0].icon}
           onClose={() => alert(Cairns.name)}
-        />
+  />*/}
       </div>
       <hr />
       <div>
