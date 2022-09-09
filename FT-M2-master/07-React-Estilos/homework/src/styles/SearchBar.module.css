@@ -1,0 +1,17 @@
+.estilos {
+
+    padding-right: 10px;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+}
+
+.buttonSearch{
+
+    color: silver;
+
+    background-color: red;
+    
+}
