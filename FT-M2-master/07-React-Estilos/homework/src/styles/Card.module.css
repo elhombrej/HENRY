@@ -1,0 +1,31 @@
+.buttonStyle{
+
+    widows: 20px;
+
+    border-radius: 50px;
+
+    background-color: rgb(117, 198, 117);
+
+    margin: 5px;
+
+    align-self: flex-end;
+
+}
+
+.buttonStyle:hover{
+
+    background-color: rgb(223, 150, 150);
+
+    color: aliceblue;
+}
+
+.background {
+
+    background-color: rgb(213, 232, 185);
+
+    border-radius: 8px;
+
+    margin: 5px;
+
+}
+

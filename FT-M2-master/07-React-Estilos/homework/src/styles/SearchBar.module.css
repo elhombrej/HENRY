@@ -10,8 +10,22 @@
 
 .buttonSearch{
 
-    color: silver;
+    color: black;
 
-    background-color: red;
+    background-color: rgb(180, 179, 179);
+
+    border-radius: 8px;
+
+    margin: 5px;
+    
+}
+
+.buttonSearch:hover{
+
+    color: wheat;
+
+    background-color: silver;
+
+    border-radius: 8px;
     
 }
