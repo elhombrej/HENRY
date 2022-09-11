@@ -38,6 +38,7 @@ export default function App() {
         setCities(oldCities => [...oldCities, city]);
       } else { alert ("Ciudad no encontrada");}
     });
+
   }
 
   function onClose(id) {
@@ -48,7 +49,7 @@ export default function App() {
 
     <div className="App">
       <Nav onSearch={onSearch}/>
-      <Cards cities={cities}/>
+      <Cards cities={cities} onClose={onClose}/>
     </div>
   );
 }
