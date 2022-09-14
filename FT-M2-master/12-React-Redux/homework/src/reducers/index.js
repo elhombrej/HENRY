@@ -1,0 +1,46 @@
+import {GET_DETAILS, GET_MOVIES, ADD_MOVIE_FAVORITE, REMOVE_MOVIE_FAVORITE} from "../actions/constants";
+
+
+const initialState ={
+
+    moviesLoaded: [],
+
+    movieDetails: {},
+
+    moviesFavorites: [],
+
+};
+
+export default function rootReducer(state = initialState, action){
+
+    switch (action.type){
+
+        case GET_MOVIES:
+            return{
+                ...state, 
+                moviesLoaded: action.movies.Search
+            };  
+
+        case GET_DETAILS:
+            return{
+                ...state, movieDetails: action.movie
+            };
+
+        case ADD_MOVIE_FAVORITE:
+            return{
+
+                ...state, moviesFavorites: state.moviesFavorites.concat(action.movie)
+            };
+
+        case REMOVE_MOVIE_FAVORITE:
+
+        return{
+
+            ...state,moviesFavorites:state.moviesFavorites.filter(m => m.id !== action.id)
+        }
+
+        default: 
+        return state;
+
+    }
+}
