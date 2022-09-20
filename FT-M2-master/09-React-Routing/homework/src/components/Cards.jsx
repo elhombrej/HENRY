@@ -1,3 +1,5 @@
+//cartas que se presentan en home (las que estan visibles)//
+
 import React from 'react';
 import './Cards.css';
 
@@ -6,15 +8,19 @@ import Card from './Card.jsx';
 export default function Cards({cities, onClose}) {
   return (
     <div className='cards'>
-      {cities.map(c => <Card
-          key={c.id}
+      {cities.map(c => 
+      
+      <Card
+
+          key={c.id}//key para react
           max={c.max}
           min={c.min}
           name={c.name}
           img={c.img}
           id={c.id}
           onClose={() => onClose(c.id)}
-        /> )}
+          
+        ></Card> )}
     </div>
   );
 }

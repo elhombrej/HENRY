@@ -1,3 +1,5 @@
+//pagina individual con informacion de ciudad especifica//
+
 import React from "react";
 
 export default function Ciudad({city}) {
