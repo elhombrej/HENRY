@@ -34,11 +34,17 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
     },
 
+    createdInDb:{
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true
+    },
+
   }, 
   
   {
     timestamps: false,//evita que muestre el tiempo u hora de modificacion
-    freezeTableName: true //evita que sequelize le cambie el nombre
+    freezeTableName: false //evita que sequelize le cambie el nombre
   },
   
   );

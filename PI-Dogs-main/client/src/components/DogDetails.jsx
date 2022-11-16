@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getDogs } from "../redux/actions/index";
+import { getDogs } from "../redux/actions";
 import Header from "../components/Header";
 import Loader from "../components/Loader";
 // import img from "../../images/dogcreated.png";
