@@ -100,11 +100,11 @@ router.get('/dogs', async (req,res) =>{
 // });
 
 router.get("/temperaments", async function (req, res) {    
-    let getTemperaments = await Temperament.findAll()
-    getTemperaments = JSON.stringify(getTemperaments, null, 2) 
-    getTemperaments = JSON.parse(getTemperaments)
-    if(getTemperaments.length !== 0) {
-        res.send(getTemperaments) 
+    let traertemperamentos = await Temperament.findAll()
+    traertemperamentos = JSON.stringify(traertemperamentos, null, 2) 
+    traertemperamentos = JSON.parse(traertemperamentos)
+    if(traertemperamentos.length !== 0) {
+        res.send(traertemperamentos) 
     } else {
      axios.get("https://api.thedogapi.com/v1/breeds") 
      .then(async respuesta => {
@@ -115,7 +115,7 @@ router.get("/temperaments", async function (req, res) {
              if(temperamentosfinal.indexOf(el) < 0) temperamentosfinal.push(el)
          })
          for (let i = 0; i < 5; i++) {
-             await Temperament.findOrCreate({
+             await Temperament.create({
                  name: temperamentosfinal[i]
              }) 
          }
@@ -187,7 +187,7 @@ router.post("/dog", async (req, res) => {
       await dogCreated.addTemperament(temperamentDb);
       res.status(201).json({ success: "Dog succesfully created!" });
     } catch (error) {
-      res.status(400).json({ error: "Dog can't be created" });
+      res.status(400).json({ error:"Dog cant be created"});
     }
 });
 
