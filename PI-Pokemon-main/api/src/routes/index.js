@@ -1,4 +1,11 @@
 const { Router } = require('express');
+const router = Router();
+const bodyparse = require('body-parser');
+
+router.use(bodyparse.json());
+router.use(bodyparse.urlencoded({extended:true}));
+
+
 const axios = require ('axios');
 const {Type, Pokemon} = require ('../db');
 
@@ -8,8 +15,6 @@ let reqInstance = axios.create({
       }
     }
 )
-
-const router = Router();
 
 const getApiInfo = async ()=>{
     let apiUrl = "https://pokeapi.co/api/v2/pokemon"
@@ -46,7 +51,8 @@ const getApiInfo = async ()=>{
                     name: element.type.name
                 })
             }),
-            img: pokemon.data.sprites.other.home.front_default,
+            img: pokemon.data.sprites.other.dream_world.front_default,
+            createdInDb: false,
         }
     }));
     return pokemonsData;
@@ -68,7 +74,7 @@ const getDbInfo = async () => {
 
 //obtentgo pokemons de la api y la base de datos para concatenarlos
 
-const getAllPokemon = async() => {
+const getAllPokemons = async() => {
     const apiInfo = await getApiInfo();
     const dbInfo = await getDbInfo();
     const allPokemon = apiInfo.concat(dbInfo);
@@ -79,7 +85,7 @@ const getAllPokemon = async() => {
 
 router.get('/pokemons', async (req,res) =>{
     const {name} = req.query;
-    let pokemonsTotal = await getAllPokemon();
+    let pokemonsTotal = await getAllPokemons();
     if (name){
         let pokemonName = await pokemonsTotal.filter(element => element.name.toLowerCase() === name.toLowerCase());
         pokemonName.length ?
@@ -89,6 +95,83 @@ router.get('/pokemons', async (req,res) =>{
         res.status(200).send(pokemonsTotal)
     };
 })
+
+//Busco el pokemon por ID proveniente por parametro
+
+router.get('/pokemon/:id', async(req,res)=>{
+    const{id} = req.params;
+    const allPokemonsId = await getAllPokemons();
+    if(id){
+        let pokemonById = allPokemonsId.filter(element => element.id == id);
+        pokemonById.length ?
+        res.status(200).send(pokemonById) :
+        res.status(400).send('ERROR: No existe pokemon con dicho ID')
+    }
+})
+
+//Creo un Pokemon
+
+router.post('/pokemon', async (req,res)=> {
+
+    const{
+        name,
+        hp,
+        attack,
+        defense,
+        speed,
+        height,
+        weight,
+        img
+    }=req.body;
+
+    console.log(name,hp,attack,defense,speed,height,weight,img)
+
+    try{
+        // if (name) {
+        //     const allPokemons = await getAllPokemons();
+        //     const isPokemon = allPokemons.find(element => element.name.toLowerCase() === name.toLowerCase());
+        //     if(!isPokemon){
+
+                const pokemonCreated = await Pokemon.create({
+                    name,
+                    hp,
+                    attack,
+                    defense,
+                    speed,
+                    height,
+                    weight,
+                    img
+                });
+    
+                const typeDb = await Type.findAll({
+                    where: {
+                        name: types
+                    }
+                });
+                await pokemonCreated.addType(typeDb);
+                return res.status(201).send(pokemonCreated);
+            // }
+            // return res.status(404).send('ERROR: Este Pokemon ya existe!');
+        // }
+    }catch(error){
+        // !name ? 
+        res.status(404).send("ERROR: El necesario que escriba el nombre") //:
+        // res.status(404).send(error);
+    }
+    });
+
+    /*
+    "id":6
+"name":"pazoozoo"
+"hp":78
+"attack":84
+"defense":78
+"speed":100
+"height":17
+"weight":905
+"types":["name": "fire"]
+"img":"pokemon.data.sprites.other.dream_world.front_default"
+    */
 
 // router.get("/temperaments", async function (req, res) {    
 //     let traertemperamentos = await Temperament.findAll()
