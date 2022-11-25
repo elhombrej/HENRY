@@ -1,13 +1,11 @@
 const { Router } = require('express');
-const router = Router();
-
-router.use(Router.json());
 //const dogRoutes = require('./dogs.js');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 const axios = require ('axios');
 const {Temperament, Dog} = require ('../db')
 
+const router = Router();
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
@@ -166,8 +164,17 @@ router.post("/dog", async (req, res) => {
       life_span,
       image,
       temperament,
-      createdInDb,
     } = req.body;
+    console.log(
+        name,
+        min_height,
+        max_height,
+        min_weight,
+        max_weight,
+        life_span,
+        image,
+        temperament,  
+    )
     try {
       const dogCreated = await Dog.create({
         name,

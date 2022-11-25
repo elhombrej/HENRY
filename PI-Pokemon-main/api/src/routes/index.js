@@ -1,9 +1,9 @@
 const { Router } = require('express');
 const router = Router();
-const bodyparse = require('body-parser');
+// const bodyparse = require('body-parser');
 
-router.use(bodyparse.json());
-router.use(bodyparse.urlencoded({extended:true}));
+// router.use(bodyparse.json());
+// router.use(bodyparse.urlencoded({extended:true}));
 
 
 const axios = require ('axios');
@@ -106,10 +106,8 @@ router.get('/pokemon/:id', async(req,res)=>{
         pokemonById.length ?
         res.status(200).send(pokemonById) :
         res.status(400).send('ERROR: No existe pokemon con dicho ID')
-    }
-})
-
-//Creo un Pokemon
+    }}
+);
 
 router.post('/pokemon', async (req,res)=> {
 
@@ -121,16 +119,17 @@ router.post('/pokemon', async (req,res)=> {
         speed,
         height,
         weight,
-        img
+        img,
+        types
     }=req.body;
 
     console.log(name,hp,attack,defense,speed,height,weight,img)
 
-    try{
-        // if (name) {
-        //     const allPokemons = await getAllPokemons();
-        //     const isPokemon = allPokemons.find(element => element.name.toLowerCase() === name.toLowerCase());
-        //     if(!isPokemon){
+    // try{
+        if (name) {
+            const allPokemons = await getAllPokemons();
+            const isPokemon = allPokemons.find(element => element.name.toLowerCase() === name.toLowerCase());
+            if(!isPokemon){
 
                 const pokemonCreated = await Pokemon.create({
                     name,
@@ -140,25 +139,30 @@ router.post('/pokemon', async (req,res)=> {
                     speed,
                     height,
                     weight,
-                    img
+                    img,
+                    types
                 });
     
-                const typeDb = await Type.findAll({
+                const typeDataBase = await Type.findAll({
                     where: {
                         name: types
                     }
                 });
-                await pokemonCreated.addType(typeDb);
+                await pokemonCreated.addType(typeDataBase);
                 return res.status(201).send(pokemonCreated);
-            // }
-            // return res.status(404).send('ERROR: Este Pokemon ya existe!');
-        // }
-    }catch(error){
-        // !name ? 
-        res.status(404).send("ERROR: El necesario que escriba el nombre") //:
-        // res.status(404).send(error);
-    }
-    });
+            }
+            return res.status(404).send('ERROR: Este Pokemon ya existe!');
+        }
+    // }catch(error){
+        !name ? 
+        res.status(404).send("ERROR: El necesario que escriba el nombre") :
+        res.status(404).send(error);
+    // }
+}
+);
+
+
+
 
     /*
     "id":6
