@@ -161,7 +161,25 @@ router.post('/pokemon', async (req,res)=> {
 }
 );
 
+//Obtengo los tipos
 
+router.get('/types',async (req,res)=>{
+    let apiTypeUrl = await reqInstance.get('https://pokeapi.co/api/v2/type');
+    let apiTypeInfo = apiTypeUrl.data;
+    console.log(apiTypeInfo);
+    let types = apiTypeInfo.results.map(element => element.name);
+
+    console.log(types);
+    types.forEach(type =>{
+        Type.findOrCreate({
+            where: {
+                name: type
+            }
+        });
+    });
+    const allTypes = await Type.findAll();
+    return res.status(200).send(allTypes)
+});
 
 
     /*
