@@ -9,12 +9,14 @@ const router = Router();
 const axios = require ('axios');
 const {Type, Pokemon} = require ('../db');
 
-let reqInstance = axios.create({
+const reqInstance = axios.create({
     headers: {
         "Accept-Encoding": "null"
       }
     }
 )
+
+//Funcion de obtencion de 40 Pokemons de la api
 
 const getApiInfo = async ()=>{
     let apiUrl = "https://pokeapi.co/api/v2/pokemon"
@@ -22,6 +24,7 @@ const getApiInfo = async ()=>{
     do{
         let info = await reqInstance.get(apiUrl)
         let pokemonsApi = info.data;
+        //console.log(pokemonsApi)
         let auxPokemons = pokemonsApi.results?.map(element =>{
             return{
                 name: element.name,
@@ -32,7 +35,7 @@ const getApiInfo = async ()=>{
         apiUrl = pokemonsApi.next;
     }while(apiUrl != null && pokemons.length < 40);
 
-    console.log(pokemons);
+    //console.log(pokemons);
 
     let pokemonsData = await Promise.all(pokemons.map(async element =>{
         let pokemon = await reqInstance.get(element.url);
@@ -52,13 +55,14 @@ const getApiInfo = async ()=>{
                 })
             }),
             img: pokemon.data.sprites.other.dream_world.front_default,
-            createdInDb: false,
-        }
+            createdInDb: false,    
+        }    
     }));
+    //console.log(pokemonsData)
     return pokemonsData;
 };
 
-//obtengo pokemons de la base de datos
+//Funcion de obtencion de pokemons de la base de datos
 
 const getDbInfo = async () => {
     return await Pokemon.findAll({
@@ -72,16 +76,16 @@ const getDbInfo = async () => {
     })
 }
 
-//obtentgo pokemons de la api y la base de datos para concatenarlos
+//Funcion de obtencion de pokemons de la api y la base de datos para concatenarlos
 
 const getAllPokemons = async() => {
     const apiInfo = await getApiInfo();
     const dbInfo = await getDbInfo();
-    const allPokemon = apiInfo.concat(dbInfo);
+    const allPokemon = dbInfo.concat(apiInfo);
     return allPokemon;
 }
 
-//ruta para obtener los primeros 40 pokemones de la api y base de datos
+//Ruta de obtencion de los primeros 40 pokemones de la api y base de datos
 
 router.get('/pokemons', async (req,res) =>{
     const {name} = req.query;
@@ -99,15 +103,75 @@ router.get('/pokemons', async (req,res) =>{
 //Busco el pokemon por ID proveniente por parametro
 
 router.get('/pokemon/:id', async(req,res)=>{
-    const{id} = req.params;
-    const allPokemonsId = await getAllPokemons();
-    if(id){
-        let pokemonById = allPokemonsId.filter(element => element.id == id);
-        pokemonById.length ?
-        res.status(200).send(pokemonById) :
-        res.status(400).send('ERROR: No existe pokemon con dicho ID')
-    }}
+    const {id} = req.params;
+            try{
+            const allPokemonsId = await getAllPokemons();
+            let pokemonById = allPokemonsId.filter(element => element.id == id);
+            if(pokemonById.length){
+            res.status(200).send(pokemonById)
+            }else{
+                const pokemon= await reqInstance.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+                const pokemonInfo = {
+                    id: pokemon.data.id,
+                    name: pokemon.data.name,
+                    hp: pokemon.data.stats[0].base_stat,
+                    attack: pokemon.data.stats[1].base_stat,
+                    defense: pokemon.data.stats[2].base_stat,
+                    speed: pokemon.data.stats[5].base_stat,
+                    height: pokemon.data.height,
+                    weight: pokemon.data.weight,
+                    types: pokemon.data.types.map(element=>{
+                        return ({
+                            name: element.type.name
+                        })
+                    }),
+                    img: pokemon.data.sprites.other.dream_world.front_default,
+                }
+                res.status(201).send(pokemonInfo)    
+            }
+        }catch(error){
+            res.status(400).send('ERROR: No existe pokemon con dicho ID')
+        };
+    }
 );
+
+//Busco el pokemon por nombre proveniente por query
+
+router.get('/pokemon/?', async(req,res)=>{
+    const {name} = req.query;
+            try{
+            const allPokemonsNames = await getAllPokemons();
+            let pokemonByName = allPokemonsNames.filter(element => element.name.toLowerCase() == name.toLowerCase());
+            if(pokemonByName.length){
+            res.status(200).send(pokemonByName)
+            }else{
+                const pokemon= await reqInstance.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
+                const pokemonInfo = {
+                    id: pokemon.data.id,
+                    name: pokemon.data.name,
+                    hp: pokemon.data.stats[0].base_stat,
+                    attack: pokemon.data.stats[1].base_stat,
+                    defense: pokemon.data.stats[2].base_stat,
+                    speed: pokemon.data.stats[5].base_stat,
+                    height: pokemon.data.height,
+                    weight: pokemon.data.weight,
+                    types: pokemon.data.types.map(element=>{
+                        return ({
+                            name: element.type.name
+                        })
+                    }),
+                    img: pokemon.data.sprites.other.dream_world.front_default,
+                }
+                res.status(201).send(pokemonInfo)    
+            }
+        }catch(error){
+            res.status(400).send('ERROR: No existe pokemon con dicho nombre')
+        };
+    }
+);
+
+
+//Ruta de creacion de pokemon
 
 router.post('/pokemon', async (req,res)=> {
 
@@ -123,9 +187,7 @@ router.post('/pokemon', async (req,res)=> {
         types
     }=req.body;
 
-    console.log(name,hp,attack,defense,speed,height,weight,img)
-
-    // try{
+    try{
         if (name) {
             const allPokemons = await getAllPokemons();
             const isPokemon = allPokemons.find(element => element.name.toLowerCase() === name.toLowerCase());
@@ -153,75 +215,32 @@ router.post('/pokemon', async (req,res)=> {
             }
             return res.status(404).send('ERROR: Este Pokemon ya existe!');
         }
-    // }catch(error){
+    }catch(error){
         !name ? 
         res.status(404).send("ERROR: El necesario que escriba el nombre") :
         res.status(404).send(error);
-    // }
+    }
 }
 );
 
-//Obtengo los tipos
+//Ruta de obtencion de Tipos
 
 router.get('/types',async (req,res)=>{
     let apiTypeUrl = await reqInstance.get('https://pokeapi.co/api/v2/type');
     let apiTypeInfo = apiTypeUrl.data;
-    console.log(apiTypeInfo);
     let types = apiTypeInfo.results.map(element => element.name);
 
-    console.log(types);
-    types.forEach(type =>{
+    types.forEach(element =>{
+        console.log(element)
         Type.findOrCreate({
             where: {
-                name: type
+                name: element
             }
         });
     });
     const allTypes = await Type.findAll();
     return res.status(200).send(allTypes)
 });
-
-
-    /*
-    "id":6
-"name":"pazoozoo"
-"hp":78
-"attack":84
-"defense":78
-"speed":100
-"height":17
-"weight":905
-"types":["name": "fire"]
-"img":"pokemon.data.sprites.other.dream_world.front_default"
-    */
-
-// router.get("/temperaments", async function (req, res) {    
-//     let traertemperamentos = await Temperament.findAll()
-//     traertemperamentos = JSON.stringify(traertemperamentos, null, 2) 
-//     traertemperamentos = JSON.parse(traertemperamentos)
-//     if(traertemperamentos.length !== 0) {
-//         res.send(traertemperamentos) 
-//     } else {
-//      axios.get("https://api.thedogapi.com/v1/breeds") 
-//      .then(async respuesta => {
-//          let temperamentosfinal = []
-//          let temperamentos = respuesta.data.map((el) => el.temperament) 
-//          let nuevostemperamentos = temperamentos.map((el) => el && el.split(",")).flat()
-//          nuevostemperamentos.forEach((el) => {
-//              if(temperamentosfinal.indexOf(el) < 0) temperamentosfinal.push(el)
-//          })
-//          for (let i = 0; i < 5; i++) {
-//              await Temperament.create({
-//                  name: temperamentosfinal[i]
-//              }) 
-//          }
-//          res.send(temperamentosfinal.slice(9, 19))
-//      }) 
-//      .catch(error => {
-//          console.log(error)
-//      })           
-//     } 
-// })
 
 module.exports = router;
  
