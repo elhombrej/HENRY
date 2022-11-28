@@ -16,7 +16,7 @@ export const getDogs = () => {
 
 export function filterDogsByStatus(payload){
   return {
-    type:'FILTER_BY_VALUE',
+    type:'FILTER_BY_STATUS',
     payload
   };
 };

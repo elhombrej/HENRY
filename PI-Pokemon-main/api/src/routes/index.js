@@ -9,12 +9,12 @@ const router = Router();
 const axios = require ('axios');
 const {Type, Pokemon} = require ('../db');
 
-const reqInstance = axios.create({
+let reqInstance = axios.create({
     headers: {
         "Accept-Encoding": "null"
       }
     }
-)
+);
 
 //Funcion de obtencion de 40 Pokemons de la api
 
@@ -49,16 +49,12 @@ const getApiInfo = async ()=>{
             speed: pokemon.data.stats[5].base_stat,
             height: pokemon.data.height,
             weight: pokemon.data.weight,
-            types: pokemon.data.types.map(element=>{
-                return ({
-                    name: element.type.name
-                })
-            }),
+            types: pokemon.data.types.map(element=>element.type.name + "\n"),
             img: pokemon.data.sprites.other.dream_world.front_default,
             createdInDb: false,    
         }    
     }));
-    //console.log(pokemonsData)
+    console.log(pokemonsData[0].types)
     return pokemonsData;
 };
 
@@ -85,19 +81,13 @@ const getAllPokemons = async() => {
     return allPokemon;
 }
 
-//Ruta de obtencion de los primeros 40 pokemones de la api y base de datos
+//Ruta de obtencion de los primeros pokemones de la api y base de datos para la ruta principal
 
 router.get('/pokemons', async (req,res) =>{
-    const {name} = req.query;
     let pokemonsTotal = await getAllPokemons();
-    if (name){
-        let pokemonName = await pokemonsTotal.filter(element => element.name.toLowerCase() === name.toLowerCase());
-        pokemonName.length ?
-        res.status(200).send(pokemonName) : 
-        res.status(404).send('Pokemon no encontrado');
-    }else{
-        res.status(200).send(pokemonsTotal)
-    };
+    pokemonsTotal ?
+    res.status(200).send(pokemonsTotal) :
+    res.status(404).send(error);
 })
 
 //Busco el pokemon por ID proveniente por parametro
@@ -190,8 +180,8 @@ router.post('/pokemon', async (req,res)=> {
     try{
         if (name) {
             const allPokemons = await getAllPokemons();
-            const isPokemon = allPokemons.find(element => element.name.toLowerCase() === name.toLowerCase());
-            if(!isPokemon){
+            const pokemonExists = allPokemons.find(element => element.name.toLowerCase() === name.toLowerCase());
+            if(!pokemonExists){
 
                 const pokemonCreated = await Pokemon.create({
                     name,
@@ -234,7 +224,7 @@ router.get('/types',async (req,res)=>{
         console.log(element)
         Type.findOrCreate({
             where: {
-                name: element
+                name: element,
             }
         });
     });
