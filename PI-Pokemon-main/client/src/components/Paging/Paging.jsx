@@ -10,10 +10,10 @@ export default function Paging({pokemonsPerPage, allPokemons,paging}){
 
     return(
         <nav>
-            <ul>
+            <ul className="unOrderedList">
                 {pageNumbers && pageNumbers.map(number =>(
-                    <li key={number}>
-                    <a classname="number" onClick={()=> paging(number)}>{number}</a>
+                    <li className="pages" key={number}>
+                    <a className="number" onClick={()=> paging(number)}>{number}</a>
                     </li>
                 ))}
             </ul>

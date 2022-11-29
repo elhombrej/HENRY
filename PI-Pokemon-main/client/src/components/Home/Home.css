@@ -1,5 +1,8 @@
+.home{
+    justify-content: center;
+}
 .container{
-    display: flex;
+    display:inline-flex;
     flex-wrap: wrap;
     justify-content: center;
     height: min-content;
@@ -22,13 +25,22 @@
     transform: translateY(-15px);
     box-shadow: 0 12px 16px #000000b8;
     text-align: center;
-
 }
 
-.background{
-    /* position:absolute; */
+/* .background{
+    position:absolute;
     background-color:lightgreen ;
     background-image: url(https://2minutetabletop.com/grass-textures-seamless-tiling/);
     background: #fff;
     color: rebeccapurple;
+} */
+
+.paging{
+    /* position: relative; */
+    height: min-content;
+    background-color: lightblue;
+    border-radius: 20px;
+    /* padding: 0.5rem; */
+    cursor: pointer;
+    margin: 2px;
 }

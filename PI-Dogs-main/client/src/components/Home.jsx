@@ -1,9 +1,9 @@
 import React from "react";
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
 import { getDogs, filterDogsByStatus, filterCreated, orderByName } from "../redux/actions";
 import {useState,useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Card from "./Card";
 import Paging from "./Paging";
 import SearchBar from "./SearchBar";
@@ -52,8 +52,7 @@ export default function Home(){
                     {/* <Link to='/dog'>Crear perro</Link> */}
         <SearchBar/>
         <hr/>
-        <button
-        onClick={element=>{handleClick(element)}}
+        <button onClick={element=>{handleClick(element)}}
         >
         Volver a cargar perros!
         </button>
@@ -116,36 +115,3 @@ export default function Home(){
     )
     
 }
-
-// class Home extends React.Component{
-
-//     constructor(props){
-//         super(props)
-//     }
-
-//     componentDidMount(){this.props.getDogs};
-
-//     render(){
-//         return(
-//             <>
-//             <h2>Home</h2>
-//             </>
-            
-//         )    
-//     }
-// };
-
-// const mapStateToProps = (state) =>{
-//     return{
-//         allDogs: state.allDogs
-//     }
-// };
-// const mapDispatchToProps = (dispatch) =>{
-//     return{
-//         getDogs:()=>dispatch(getDogs())
-//     }
-// };
-
-
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Home);

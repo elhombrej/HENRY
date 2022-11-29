@@ -1,13 +1,13 @@
 import React from "react";
 // import { connect } from "react-redux";
 import "./Home.css";
-import { getPokemons,filterCreated, orderByName, orderByAttack } from "../redux/actions";
+import { getPokemons,filterCreated, orderByName, orderByAttack } from "../../redux/actions";
 import {useState,useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-// import { Link } from "react-router-dom";
-import Card from "./Card";
-import Paging from "./Paging";
-// import SearchBar from "./SearchBar";
+import { Link } from "react-router-dom";
+import Card from "../Card/Card";
+import Paging from "../Paging/Paging";
+import SearchBar from "../SearchBar/SearchBar";
 
 export default function Home(){
 
@@ -20,7 +20,7 @@ export default function Home(){
     //Estado local sobre el paginado
 
     const[currentPage, setCurrentPage] = useState(1);
-const [pokemonsPerPage,setPokemonsPerPage] = useState(12);
+    const [pokemonsPerPage,setPokemonsPerPage] = useState(12);
     const indexOfLastPokemon = currentPage * pokemonsPerPage;
     const indexOfFirstPokemon = indexOfLastPokemon - pokemonsPerPage;
     const currentPokemons = allPokemons.slice(indexOfFirstPokemon,indexOfLastPokemon);
@@ -44,6 +44,7 @@ const [pokemonsPerPage,setPokemonsPerPage] = useState(12);
     }
 
     function handleFilterCreated(element){
+        element.preventDefault();
         dispatch(filterCreated(element.target.value))
     }
 
@@ -63,35 +64,30 @@ const [pokemonsPerPage,setPokemonsPerPage] = useState(12);
 
 
     return(
-        <div key={Math.random()}>
-        {/* <SearchBar/> */}
+        <div className="home" key={Math.random()}>
+        <SearchBar/>
         <h1>Web Pokedex</h1>
         <hr/>
         <button onClick={element=>{handleClick(element)}}
         >
         Volver a cargar Pokemons!
         </button>
-        {/* <Link to= '/pokemon'><button>Crear Pokemon!</button></Link> */}
-        <div classname="background">
+        <Link to= '/pokemon'><button>Crear Pokemon!</button></Link>
+        <div className="background">
 
             {/*Ordenamiento Ascendente y Descendente, orden alfabetico y por ataque*/}
 
-            <select 
-            onChange={element => handleSortName(element)}
-            >
-                <option value = 'asc'>Ascendente!</option>
-                <option value = 'desc'>Descendente!</option>
+            <select onChange={element => handleSortName(element)}>
+                <option value = 'asc'>A - Z!</option>
+                <option value = 'desc'>Z - A!</option>
             </select>
 
-            <select 
-            onChange={element => handleSortAttack(element)}
-            >
+            {/*Ordenamiento por ataque*/}
+
+            <select onChange={element => handleSortAttack(element)}>
                 <option value = 'asc'>Mayor ataque!</option>
                 <option value = 'desc'>Menor ataque!</option>
             </select>
-
-
-            {/*Ordenamiento por ataque*/}
 
             {/*Filtro por API o Base de Datos*/}
 
@@ -104,6 +100,8 @@ const [pokemonsPerPage,setPokemonsPerPage] = useState(12);
             </select>
 
             {/*Filtro por Tipo*/}
+
+            <hr/>
 
             {/*Renderizo las cartas de los pokemon en Home*/}
             <div className='container' >{
@@ -123,11 +121,13 @@ const [pokemonsPerPage,setPokemonsPerPage] = useState(12);
                 })
             }                    
             </div>
+            <div className="paging">
             <Paging
             pokemonsPerPage={pokemonsPerPage}
             allPokemons={allPokemons.length}
             paging = {paging}>    
             </Paging>
+            </div>
         </div>
 
         </div>

@@ -1,6 +1,6 @@
 const initialState = {
-  pokemons: [],
-    allPokemons: [],
+    pokemons: [],
+    PokemonsAuxNoFilter: [],
     types: [],
     // dog_details: [],
     // pokemonsWeight: [],
@@ -13,20 +13,37 @@ const initialState = {
         return {
           ...state,
           pokemons: action.payload,
-          allpokemons: action.payload
+          PokemonsAuxNoFilter: action.payload
         };
+        case "GET_TYPES":
+          return {
+            ...state,
+            types: action.payload,
+          };
 
         case 'FILTER_CREATED':
-          const allPokemonsCF = state.allPokemons;
-          const createdFilter = action.payload === 'created' ? 
+          const allPokemonsCF = state.PokemonsAuxNoFilter;
+          const filterCreated = action.payload === 'created' ? 
           allPokemonsCF.filter(element => element.createdInDb) : 
           allPokemonsCF.filter(element=> !element.createdInDb);
+          // const filterCreated = allPokemonsCF;
+          // const condition = action.payload;
+          // switch (condition){
+          //   case 'created': filterCreated = allPokemonsCF.filter(element => element.createdInDb);
+          //   break;
+          //   case 'api': filterCreated = allPokemonsCF.filter(element=> !element.createdInDb);
+          //   break;
+          //   default: filterCreated = allPokemonsCF;
+          // }
           return{
             ...state,
             pokemons: action.payload === 'all' ? 
-            state.allPokemons : 
-            createdFilter
-          }
+            state.allPokemonsCF : 
+            filterCreated
+            
+            // ...state,
+            // pokemons: filterCreated
+          }  
 
         case 'ORDER_BY_NAME':
           let sortedArrayNames = action.payload === 'asc' ?
@@ -78,16 +95,17 @@ const initialState = {
           pokemons:sortedArrayAttack
         }
 
-        case "GET_TYPES":
-          return {
-            ...state,
-            temperaments: action.payload,
-          };
-
         case 'POST_POKEMON':
           return{
             ...state
           }
+        
+         case "GET_POKEMON_BY_NAME":
+           return {
+              ...state,
+              pokemons: action.payload,
+          };
+  
 
         default: return {...state};
         
