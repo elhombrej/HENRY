@@ -49,11 +49,12 @@ const getApiInfo = async ()=>{
             speed: pokemon.data.stats[5].base_stat,
             height: pokemon.data.height,
             weight: pokemon.data.weight,
-            types: pokemon.data.types.map(element=>element.type.name + "\n"),
+            types: pokemon.data.types.map(element=> element.type),
             img: pokemon.data.sprites.other.dream_world.front_default,
             createdInDb: false,    
         }    
     }));
+    console.log(pokemonsData)
     return pokemonsData;
 };
 
@@ -215,13 +216,13 @@ router.post('/pokemon', async (req,res)=> {
 router.get('/types',async (req,res)=>{
     let apiTypeUrl = await reqInstance.get('https://pokeapi.co/api/v2/type');
     let apiTypeInfo = apiTypeUrl.data;
-    let types = apiTypeInfo.results.map(element => element.name);
+    let types = apiTypeInfo.results.map(element => element);
 
     types.forEach(element =>{
-        console.log(element)
+        console.log(element.name)
         Type.findOrCreate({
             where: {
-                name: element,
+                name: element.name,
             }
         });
     });

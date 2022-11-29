@@ -17,6 +17,7 @@ export default function PokemonCreate(){
         height:"",
         weight:"",
         img:"",
+        createdInDb:true,
         types:[]
     })
 
@@ -146,6 +147,7 @@ export default function PokemonCreate(){
                 </div>
 
                 <select onChange={(element)=>handleSelect(element)}>
+                    <option>Tipos</option>
                     {types.map((element)=>(
                         <option key={Math.random()} value={element.name}>{element.name}</option>
                     ))}
@@ -154,7 +156,7 @@ export default function PokemonCreate(){
                 <ul>
                     <div>
                         {input.types.map((element)=>
-                        <li className="chosenTypes" key={Math.random()}>{element + " ,"}{console.log(element)}</li>)}
+                        <li className="chosenTypes" key={Math.random()}>{element}{console.log(element)}</li>)}
                     </div>
                 </ul>
 

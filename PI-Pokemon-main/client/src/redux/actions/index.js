@@ -74,7 +74,7 @@ export function orderByAttack(payload){
 export function getPokemonByName(payload){
   return async function(dispatch){
     try{
-      var json = await axios.get("http://localhost:3001/pokemon?name" + payload);
+      var json = await axios.get("http://localhost:3001/pokemon?name=" + payload);
       return dispatch({
         type:"GET_POKEMON_BY_NAME",
         payload: json.data

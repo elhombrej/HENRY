@@ -9,7 +9,7 @@ export default function Card({id,name,img,types,height}) {
             <h1 className="card-title">{name}</h1>
           <img 
           src={img} alt={"Imagen desaparecida!"} width={height*15+"px"} height={height*15+"px"}/>
-          <p className="types">{types}</p>
+          <p className="types">{types.map(element=> element.name +"\n")}</p>
           </div>
     </div>
   );

@@ -78,6 +78,7 @@ export default function Home(){
             {/*Ordenamiento Ascendente y Descendente, orden alfabetico y por ataque*/}
 
             <select onChange={element => handleSortName(element)}>
+                <option>Orden alfabetico</option>
                 <option value = 'asc'>A - Z!</option>
                 <option value = 'desc'>Z - A!</option>
             </select>
@@ -85,6 +86,7 @@ export default function Home(){
             {/*Ordenamiento por ataque*/}
 
             <select onChange={element => handleSortAttack(element)}>
+                <option>Orden por ataque</option>
                 <option value = 'asc'>Mayor ataque!</option>
                 <option value = 'desc'>Menor ataque!</option>
             </select>
@@ -94,6 +96,7 @@ export default function Home(){
             <select 
             onChange={element => handleFilterCreated(element)}
             >
+                <option>Filtro API o Base de datos</option>
                 <option value='all'>Pokemon API y Base de datos!</option>
                 <option value='api'>Pokemons API!</option>
                 <option value='created'>Pokemons Base de datos!</option>

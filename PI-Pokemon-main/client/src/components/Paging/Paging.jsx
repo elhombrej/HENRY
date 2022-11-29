@@ -5,7 +5,7 @@ export default function Paging({pokemonsPerPage, allPokemons,paging}){
     const pageNumbers = [];
 
     for(let i=0;i<=Math.ceil(allPokemons/pokemonsPerPage);i++){
-        pageNumbers.push(i+1)
+        pageNumbers.push(i)
     };
 
     return(
