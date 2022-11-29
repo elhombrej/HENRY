@@ -23,7 +23,7 @@ export const getPokemons = () => {
   };
 };
 
-export function getTypes(){//get temperament name
+export function getTypes(){
   return async function(dispatch) {
     try {
       const info = await axios.get("http://localhost:3001/types",{});

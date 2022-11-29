@@ -32,7 +32,7 @@ export default function PokemonCreate(){
     function handleSelect(element){
         setInput({
             ...input,
-            types:[...input.types, element.target.value]
+            types:[...input.types, {name: element.target.value}]
         })
     }
 
@@ -149,14 +149,14 @@ export default function PokemonCreate(){
                 <select onChange={(element)=>handleSelect(element)}>
                     <option>Tipos</option>
                     {types.map((element)=>(
-                        <option key={Math.random()} value={element.name}>{element.name}</option>
+                        <option key={Math.random()} name ='types' value={element.name}>{element.name}</option>
                     ))}
                 </select>
 
                 <ul>
                     <div>
                         {input.types.map((element)=>
-                        <li className="chosenTypes" key={Math.random()}>{element}{console.log(element)}</li>)}
+                        <li className="chosenTypes" key={Math.random()}>{element.name.toString()}</li>)}
                     </div>
                 </ul>
 

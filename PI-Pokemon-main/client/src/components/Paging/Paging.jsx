@@ -4,7 +4,7 @@ import "./Paging.css"
 export default function Paging({pokemonsPerPage, allPokemons,paging}){
     const pageNumbers = [];
 
-    for(let i=0;i<=Math.ceil(allPokemons/pokemonsPerPage);i++){
+    for(let i=1;i<=Math.ceil(allPokemons/pokemonsPerPage);i++){
         pageNumbers.push(i)
     };
 

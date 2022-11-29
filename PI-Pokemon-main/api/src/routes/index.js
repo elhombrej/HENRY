@@ -54,7 +54,6 @@ const getApiInfo = async ()=>{
             createdInDb: false,    
         }    
     }));
-    console.log(pokemonsData)
     return pokemonsData;
 };
 
@@ -194,11 +193,14 @@ router.post('/pokemon', async (req,res)=> {
                     img,
                     types
                 });
-    
-                // const typeDataBase = await Type.findAll({
-                //     where: {types}
-                // });
-                // await pokemonCreated.addType(typeDataBase);
+
+                const typesArray = types.map(element => element.name)
+                console.log(typesArray)
+                const typeDataBase = await Type.findAll({
+                    where: {name:typesArray}
+                });
+                await pokemonCreated.addType(typeDataBase);
+                console.log(pokemonCreated)
                 return res.status(201).send(pokemonCreated);
             }
             return res.status(404).send('ERROR: Este Pokemon ya existe!');
@@ -219,7 +221,6 @@ router.get('/types',async (req,res)=>{
     let types = apiTypeInfo.results.map(element => element);
 
     types.forEach(element =>{
-        console.log(element.name)
         Type.findOrCreate({
             where: {
                 name: element.name,

@@ -11,13 +11,15 @@ import SearchBar from "../SearchBar/SearchBar";
 
 export default function Home(){
 
-    //constante para despachar acciones
+    //constante para despachar acciones:
+
     const dispatch = useDispatch();
 
-    //trae todos los estados
+    //trae el estado de los pokemos:
+
     const allPokemons = useSelector((state) => state.pokemons);
 
-    //Estado local sobre el paginado
+    //Estado local sobre el paginado:
 
     const[currentPage, setCurrentPage] = useState(1);
     const [pokemonsPerPage,setPokemonsPerPage] = useState(12);
