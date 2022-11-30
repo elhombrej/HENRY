@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Card from "../Card/Card";
 import Paging from "../Paging/Paging";
 import SearchBar from "../SearchBar/SearchBar";
+//import Loader from "../Loader/Loader";
 
 export default function Home(){
 
@@ -22,11 +23,11 @@ export default function Home(){
     //Estado local sobre el paginado:
 
     const[currentPage, setCurrentPage] = useState(1);
-    const [pokemonsPerPage,setPokemonsPerPage] = useState(12);
+    const [pokemonsPerPage,/*setPokemonsPerPage*/] = useState(12);
     const indexOfLastPokemon = currentPage * pokemonsPerPage;
     const indexOfFirstPokemon = indexOfLastPokemon - pokemonsPerPage;
     const currentPokemons = allPokemons.slice(indexOfFirstPokemon,indexOfLastPokemon);
-    const[order, setOrder] = useState('');
+    const[/*order*/, setOrder] = useState('');
 
     const paging = (pageNumber)=>{
         setCurrentPage(pageNumber)

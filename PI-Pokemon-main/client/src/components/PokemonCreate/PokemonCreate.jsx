@@ -26,7 +26,6 @@ export default function PokemonCreate(){
             ...input,
             [element.target.name]: element.target.value
         })
-        console.log(input)
     }
 
     function handleSelect(element){

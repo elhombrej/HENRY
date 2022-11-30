@@ -1,3 +1,4 @@
+import './PokemonDetails.css'
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -6,58 +7,59 @@ import Loader from "../Loader/Loader";
 // import img from "../../images/pokemoncreated.png";
 // import style from "../pokemonDetails/pokemonDetails.module.css";
 
-const PokemonDetails = () => {
+const PokemonDetails = async () => {
   const dispatch = useDispatch();
   const { name } = useParams();
-  const allPokemons = useSelector((state) => state.allPokemons);
-  const [pokemon, setPokemon] = useState({});
+  const pokemonFromState = useSelector((state) => state.pokemons);
+  // const [pokemon, setPokemon] = useState({name});
 
   useEffect(() => {
-    dispatch(getPokemons());
+    dispatch(getPokemonByName(name));
   }, [dispatch]);
 
-  useEffect(() => {
-    allPokemons.length > 0 ? 
-    setPokemon(allPokemons.find((d) => d.name === name)): 
-    setPokemon({});
-  }, [allPokemons, name]);
+  const pokemon = pokemonFromState[0];
+  console.log(pokemon)
+  // useEffect(() => {
+  //   allPokemons.length > 0 ? 
+  //   setPokemon(allPokemons.find((element) => element.name === name)): 
+  //   setPokemon({});
+  // }, [allPokemons, name]);
 
   return (
-    <>
-    {typeof pokemon === "object" && Object.keys(pokemon).length > 0 ? (
+    {if(pokemon){
+    <div className="details">{name}
+    {/* {pokemon ? ( */}
         <article>
-            <img src={pokemon.img ? pokemon.image : "No hay Pokemon!"} alt={`img-${pokemon.name}`}
-              />
+            <img src={pokemon.img} alt={pokemon.name}/>
         <section>
-          <h1>{pokemon.name}</h1>
-          {pokemon.types ? (
+          <h1>{pokemon.name}</h1>            
           <p>
               <b>types: </b> {pokemon.types}
-          </p>) : 
-          (<p>
-              <b>types:</b> 'pokemon types Not Found'
-          </p>)}
-          <p>
-            <b>Min height:</b> {pokemon.min_height} cm
           </p>
           <p>
-            <b>Max height:</b> {pokemon.max_height} cm
+            <b>Puntos de vida:</b> {pokemon.hp} Puntos
           </p>
           <p>
-            <b>Min weight:</b> {pokemon.min_weight} kg
+            <b>Ataque:</b> {pokemon.attack} Puntos
           </p>
           <p>
-            <b>Max weight:</b> {pokemon.max_weight} kg
+            <b>Defensa:</b> {pokemon.defense} Puntos
           </p>
           <p>
-            <b>Life span:</b> {pokemon.life_span}
+            <b>Velocidad:</b> {pokemon.speed} Puntos
+          </p>
+          <p>
+            <b>Altura:</b> {pokemon.height} Pies
+          </p>
+          <p>
+            <b>Peso:</b> {pokemon.weight} Kg
           </p>
         </section>
       </article>
-    ) : (
-       <Loader />
-    )}
-</>
+     {/* ) : (
+        <Loader />
+     )} */}
+</div>}}
 );
 };
 
