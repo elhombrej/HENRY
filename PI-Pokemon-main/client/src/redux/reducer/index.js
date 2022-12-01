@@ -2,8 +2,7 @@ const initialState = {
     pokemons: [],
     PokemonsAuxNoFilter: [],
     types: [],
-    // dog_details: [],
-    // pokemonsWeight: [],
+    pokemonDetail: [],
   };
   
   const rootReducer = (state = initialState, action) => {
@@ -105,7 +104,12 @@ const initialState = {
               ...state,
               pokemons: action.payload,
           };
-  
+
+          case "GET_POKEMON_DETAIL":
+            return {
+               ...state,
+               pokemonDetail: action.payload,
+           };
 
         default: return {...state};
         

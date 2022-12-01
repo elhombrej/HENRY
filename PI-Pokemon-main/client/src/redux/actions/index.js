@@ -82,3 +82,17 @@ export function getPokemonByName(payload){
     }catch(error){console.log(error)}
   }
 }
+
+export function getPokemonDetail(payload){
+  return async function (dispatch){
+    try{
+      var json = await axios.get("http://localhost:3001/pokemon/" + payload)
+      return dispatch({
+        type: "GET_POKEMON_DETAIL",
+        payload: json.data
+      })
+    }catch(error){
+      return{error: error.message};
+    }
+  }
+}

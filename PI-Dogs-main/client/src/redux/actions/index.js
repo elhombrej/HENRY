@@ -37,8 +37,8 @@ export function orderByName(payload){
 
 export function getNameDogs(name){
   return async function (dispatch){
-      try{
-        let json = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}`);
+      try{/*`https://api.thedogapi.com/v1/breeds/search?q=*/
+        let json = await axios.get(`/dogs/${name}`);
         return dispatch({
           type: "GET_NAME_DOGS",
           payload:json.data,

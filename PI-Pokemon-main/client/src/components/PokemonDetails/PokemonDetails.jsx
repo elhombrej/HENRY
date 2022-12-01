@@ -1,66 +1,41 @@
-import './PokemonDetails.css'
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getPokemons, getPokemonByName } from "../../redux/actions/index";
-import Loader from "../Loader/Loader";
-// import img from "../../images/pokemoncreated.png";
-// import style from "../pokemonDetails/pokemonDetails.module.css";
+import { getPokemonDetail } from "../../redux/actions";
 
-const PokemonDetails = async () => {
+export default function PokemonDetails(props){
+  console.log(props);
   const dispatch = useDispatch();
-  const { name } = useParams();
-  const pokemonFromState = useSelector((state) => state.pokemons);
-  // const [pokemon, setPokemon] = useState({name});
 
-  useEffect(() => {
-    dispatch(getPokemonByName(name));
-  }, [dispatch]);
+  useEffect(()=>{dispatch(getPokemonDetail(props.match.params.id))})
 
-  const pokemon = pokemonFromState[0];
+  const pokemon = useSelector(state=>(state.pokemonDetail));
+
   console.log(pokemon)
-  // useEffect(() => {
-  //   allPokemons.length > 0 ? 
-  //   setPokemon(allPokemons.find((element) => element.name === name)): 
-  //   setPokemon({});
-  // }, [allPokemons, name]);
-
-  return (
-    {if(pokemon){
-    <div className="details">{name}
-    {/* {pokemon ? ( */}
-        <article>
-            <img src={pokemon.img} alt={pokemon.name}/>
-        <section>
-          <h1>{pokemon.name}</h1>            
-          <p>
-              <b>types: </b> {pokemon.types}
-          </p>
-          <p>
-            <b>Puntos de vida:</b> {pokemon.hp} Puntos
-          </p>
-          <p>
-            <b>Ataque:</b> {pokemon.attack} Puntos
-          </p>
-          <p>
-            <b>Defensa:</b> {pokemon.defense} Puntos
-          </p>
-          <p>
-            <b>Velocidad:</b> {pokemon.speed} Puntos
-          </p>
-          <p>
-            <b>Altura:</b> {pokemon.height} Pies
-          </p>
-          <p>
-            <b>Peso:</b> {pokemon.weight} Kg
-          </p>
-        </section>
-      </article>
-     {/* ) : (
-        <Loader />
-     )} */}
-</div>}}
-);
-};
-
-export default PokemonDetails;
+  console.log(pokemon[0])
+  console.log(pokemon[0].name)
+  
+  return(
+    <div>
+      {pokemon ?
+      <div>
+        <h1>{pokemon[0].name.toString().toUpperCase() + "!"}</h1>
+        <img src={pokemon[0].img} alt={"Imagen desaparecida!"} width={"400"} height={"400px"}/>
+        <h2>Puntos de Vida!: {pokemon[0].hp}</h2>
+        <h2>Puntos de Ataque!: {pokemon[0].attack}</h2>
+        <h2>Puntos de Defensa!: {pokemon[0].defense}</h2>
+        <h2>Puntos de Velocidad!: {pokemon[0].speed}</h2>
+        <h2>Alto!: {pokemon[0].height} pies</h2>
+        <h2>Peso!: {pokemon[0].weight} kg</h2>
+        <h2>Tipos!: {pokemon[0].types.map(element=>"-"+element.name.toString()+"-")}</h2>
+      </div>
+    
+          :
+          <div>Loading...</div>
+    }
+    <Link to='/home'>
+      <button>Inicio</button>
+    </Link>
+    </div>
+  )
+}

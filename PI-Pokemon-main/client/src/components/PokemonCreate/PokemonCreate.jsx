@@ -3,10 +3,18 @@ import {Link,useHistory} from 'react-router-dom';
 import {postPokemon,getTypes} from '../../redux/actions';
 import { useDispatch, useSelector } from "react-redux";
 
+function validate(input){
+    let errors={status:"ok"};
+    if(!input.name){errors.name = 'Complete campo "Nombre"'}
+    else if(!input.hp){errors.name = 'Complete campo "Puntos de vida"'}
+    return errors;
+}
+
 export default function PokemonCreate(){
     const dispatch = useDispatch();
     const history = useHistory();
-    const types = useSelector((state)=> state.types);
+    const types = useSelector((state)=> state.types);//carga en al variable types el estado global de types
+    const [errors, setErrors] = useState({});
 
     const [input,setInput] = useState({
         name:"",
@@ -26,6 +34,12 @@ export default function PokemonCreate(){
             ...input,
             [element.target.name]: element.target.value
         })
+
+        setErrors(validate({
+            ...input,
+            [element.target.name]: element.target.value
+        }))
+        console.log(errors)
     }
 
     function handleSelect(element){
@@ -54,6 +68,13 @@ export default function PokemonCreate(){
         history.push('/home');
     }
 
+    function handleDelete(element){
+        setInput({
+            ...input,
+            types: input.types.filter(type => type !== element)
+        })
+    }
+
     useEffect(()=>{
         dispatch(getTypes());
     },[dispatch]);
@@ -73,6 +94,11 @@ export default function PokemonCreate(){
                     name='name'
                     onChange={(element)=>handleChange(element)}
                     />   
+                    {errors.name && (
+                        <p className=" 'errorMessage">
+                        {errors.name}
+                        </p>
+                    )}
                 </div>
 
                 <div>
@@ -155,11 +181,14 @@ export default function PokemonCreate(){
                 <ul>
                     <div>
                         {input.types.map((element)=>
-                        <li className="chosenTypes" key={Math.random()}>{element.name.toString()}</li>)}
+                        <li className="chosenTypes" key={Math.random()} onClick={()=>handleDelete(element)}>{element.name.toString()}</li>)}
                     </div>
                 </ul>
 
-                <button types='submit'>Crear!</button>
+                {/* <button types='submit'>Crear!</button> */}
+                {!errors.name && !errors.hp &&
+                (<button types='submit'>Crear!</button>)}
+
             </form>
         </div>
     )

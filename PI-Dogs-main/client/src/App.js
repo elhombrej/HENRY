@@ -14,7 +14,7 @@ function App() {
         <h1>Henry Dogs!</h1>
         <Route exact path='/' component={LandingPage} />
         <Route exact path='/home' component={Home} />
-        <Route exact path= '/dogdetails/:id' component= {DogDetails}/>
+        <Route exact path= '/dogdetails/:name' component= {DogDetails}/>
         <Route exact path={"/aboutme"} component={AboutMe} />
         <Route exact path='/dog' component={DogCreate} />
         {/* <Route exact path= "/agregarperro" component= {AgregarPerro}/> */}
