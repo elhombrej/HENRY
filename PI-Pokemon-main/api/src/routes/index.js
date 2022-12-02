@@ -97,7 +97,7 @@ router.get('/pokemon/:id', async(req,res)=>{
             const allPokemonsId = await getAllPokemons();
             let pokemonById = allPokemonsId.filter(element => element.id == id);
             if(pokemonById.length){
-                res.status(200).send(pokemonById[0])
+                return res.status(200).send(pokemonById[0])
             }else{
                 const pokemon= await reqInstance.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
                 if(pokemon){
@@ -117,7 +117,7 @@ router.get('/pokemon/:id', async(req,res)=>{
                         }),
                         img: pokemon.data.sprites.other.dream_world.front_default,
                     }
-                    res.status(201).send(pokemonInfo);  
+                    return res.status(201).send(pokemonInfo);  
                 }  
             }
         }catch(error){

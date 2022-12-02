@@ -1,6 +1,6 @@
 const initialState = {
     pokemons: [],
-    PokemonsAuxNoFilter: [],
+    pokemonsAuxNoFilter: [],
     types: [],
     pokemonDetail: [],
   };
@@ -12,7 +12,7 @@ const initialState = {
         return {
           ...state,
           pokemons: action.payload,
-          PokemonsAuxNoFilter: action.payload
+          pokemonsAuxNoFilter: action.payload
         };
         case "GET_TYPES":
           return {
@@ -21,28 +21,31 @@ const initialState = {
           };
 
         case 'FILTER_CREATED':
-          const allPokemonsCF = state.PokemonsAuxNoFilter;
+          const allPokemonsCF = state.pokemonsAuxNoFilter;
           const filterCreated = action.payload === 'created' ? 
           allPokemonsCF.filter(element => element.createdInDb) : 
           allPokemonsCF.filter(element=> !element.createdInDb);
-          // const filterCreated = allPokemonsCF;
-          // const condition = action.payload;
-          // switch (condition){
-          //   case 'created': filterCreated = allPokemonsCF.filter(element => element.createdInDb);
-          //   break;
-          //   case 'api': filterCreated = allPokemonsCF.filter(element=> !element.createdInDb);
-          //   break;
-          //   default: filterCreated = allPokemonsCF;
-          // }
           return{
             ...state,
             pokemons: action.payload === 'all' ? 
             state.allPokemonsCF : 
             filterCreated
-            
-            // ...state,
-            // pokemons: filterCreated
           }  
+
+          case 'FILTER_TYPES':
+            console.log(action.payload)
+            const allPokemonsForTypes = state.pokemonsAuxNoFilter;
+            const filterTypes = allPokemonsForTypes.filter(
+              element => 
+              {if(element.types.find(type=>type.name == action.payload)){
+                return element
+              }
+            }
+              )
+            return{
+              ...state,
+              pokemons: filterTypes
+            }  
 
         case 'ORDER_BY_NAME':
           let sortedArrayNames = action.payload === 'asc' ?
@@ -111,11 +114,6 @@ const initialState = {
                pokemonDetail: action.payload,
            };
 
-          case 'RESET_POKEMON_DETAILS':
-            return{
-              ...state,
-              pokemonDetail:[]
-            }
         default: return {...state};
         
       }

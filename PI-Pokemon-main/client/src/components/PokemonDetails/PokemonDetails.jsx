@@ -6,14 +6,14 @@ import { getPokemonDetail } from "../../redux/actions";
 export default function PokemonDetails(props){
   const dispatch = useDispatch();
 
-  useEffect(()=>{dispatch(getPokemonDetail(props.match.params.id))})
+  useEffect(()=>{dispatch(getPokemonDetail(props.match.params.id))},[dispatch])
 
   const pokemon = useSelector(state=>(state.pokemonDetail));
   
   console.log(pokemon)
   return(
     <div>
-      {pokemon.length > 0?
+      {pokemon.id == props.match.params.id?
       <div>
         <h1>{(pokemon.name.toString().toUpperCase() + "!")}</h1>
         <img src={pokemon.img} alt={"Imagen desaparecida!"} width={"400"} height={"400px"}/>
@@ -24,8 +24,7 @@ export default function PokemonDetails(props){
         <h2>Alto!: {pokemon.height} pies</h2>
         <h2>Peso!: {pokemon.weight} kg</h2>
         <h2>Tipos!: {pokemon.types.map(element=>"-"+element.name.toString()+"-")}</h2>
-      </div> :
-          <div>Loading...</div>
+      </div> : <p>Loading...</p>
     }
     <Link to='/home'>
       <button>Inicio</button>

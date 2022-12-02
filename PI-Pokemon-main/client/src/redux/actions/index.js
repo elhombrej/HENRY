@@ -55,7 +55,13 @@ export function filterCreated(payload){
       payload
     }
   };
-  
+
+  export function filterTypes(payload){
+    return{
+      type: 'FILTER_TYPES',
+      payload
+    }
+  };  
 
 export function orderByName(payload){
     return{
@@ -97,9 +103,3 @@ export function getPokemonDetail(payload){
   }
 }
 
-export function resetPokemonDetails(payload){
-return{
-    type: "RESET_POKEMON_DETAILS",
-    payload
-  }
-}

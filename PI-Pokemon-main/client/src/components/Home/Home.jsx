@@ -1,7 +1,7 @@
 import React from "react";
 // import { connect } from "react-redux";
 import "./Home.css";
-import { getPokemons,filterCreated, orderByName, orderByAttack } from "../../redux/actions";
+import { getPokemons, getTypes, filterCreated, orderByName, orderByAttack, filterTypes } from "../../redux/actions";
 import {useState,useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { Link } from "react-router-dom";
@@ -19,6 +19,9 @@ export default function Home(){
     //trae el estado de los pokemos:
 
     const allPokemons = useSelector((state) => state.pokemons);
+
+    const pokemonTypes = useSelector((state) => state.types);
+
 
     //Estado local sobre el paginado:
 
@@ -39,6 +42,10 @@ export default function Home(){
         dispatch(getPokemons())
     },[dispatch])
 
+    useEffect(()=>{
+        dispatch(getTypes())
+    },[dispatch])
+
     //Despacho la accion getPokemons a lhacer click
 
     function handleClick(element){
@@ -46,9 +53,18 @@ export default function Home(){
         dispatch(getPokemons());
     }
 
+    //Filtro para api o base de datos:
+
     function handleFilterCreated(element){
         element.preventDefault();
         dispatch(filterCreated(element.target.value))
+    }
+
+    //Filtro para tipos:
+
+    function handleFilterTypes(element){
+        element.preventDefault();
+        dispatch(filterTypes(element.target.value))
     }
 
     function handleSortName(element){
@@ -67,20 +83,25 @@ export default function Home(){
 
 
     return(
+
         <div className="home" key={Math.random()}>
+
         <SearchBar/>
+
         <h1>Web Pokedex</h1>
+
         <hr/>
-        <button onClick={element=>{handleClick(element)}}
-        >
+
+        <button className="button" onClick={element=>{handleClick(element)}}>
         Volver a cargar Pokemons!
         </button>
-        <Link to= '/pokemon'><button>Crear Pokemon!</button></Link>
+        <Link to= '/pokemon/create'><button className="button">Crear Pokemon!</button></Link>
         <div className="background">
 
             {/*Ordenamiento Ascendente y Descendente, orden alfabetico y por ataque*/}
 
-            <select onChange={element => handleSortName(element)}>
+            <select className="button"
+             onChange={element => handleSortName(element)}>
                 <option>Orden alfabetico</option>
                 <option value = 'asc'>A - Z!</option>
                 <option value = 'desc'>Z - A!</option>
@@ -88,7 +109,8 @@ export default function Home(){
 
             {/*Ordenamiento por ataque*/}
 
-            <select onChange={element => handleSortAttack(element)}>
+            <select className="button"
+             onChange={element => handleSortAttack(element)}>
                 <option>Orden por ataque</option>
                 <option value = 'asc'>Mayor ataque!</option>
                 <option value = 'desc'>Menor ataque!</option>
@@ -96,7 +118,7 @@ export default function Home(){
 
             {/*Filtro por API o Base de Datos*/}
 
-            <select 
+            <select className="button" 
             onChange={element => handleFilterCreated(element)}
             >
                 <option>Filtro API o Base de datos</option>
@@ -106,6 +128,14 @@ export default function Home(){
             </select>
 
             {/*Filtro por Tipo*/}
+
+            <select className="button"
+             onChange={(element)=>handleFilterTypes(element)}>
+                    <option>Tipos</option>
+                    {pokemonTypes.map((element)=>(
+                        <option key={Math.random()} name ='types' value={element.name}>{element.name}</option>
+                    ))}
+                </select>
 
             <hr/>
 
