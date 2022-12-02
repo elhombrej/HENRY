@@ -96,3 +96,10 @@ export function getPokemonDetail(payload){
     }
   }
 }
+
+export function resetPokemonDetails(payload){
+return{
+    type: "RESET_POKEMON_DETAILS",
+    payload
+  }
+}

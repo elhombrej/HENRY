@@ -111,6 +111,11 @@ const initialState = {
                pokemonDetail: action.payload,
            };
 
+          case 'RESET_POKEMON_DETAILS':
+            return{
+              ...state,
+              pokemonDetail:[]
+            }
         default: return {...state};
         
       }
